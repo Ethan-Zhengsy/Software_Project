@@ -1,0 +1,181 @@
+<mxfile host="65bd71144e">
+    <diagram id="uu8P67gw3fnO9lMhEX1J" name="第 1 页">
+        <mxGraphModel dx="861" dy="587" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="75" y="20" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="学生家长" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+                    <mxGeometry x="40" y="80" width="100" height="840" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="5">
+                    <mxGeometry x="45" y="90" width="10" height="710" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="学生界面&lt;div&gt;&amp;lt;boundary&amp;gt;&lt;/div&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+                    <mxGeometry x="240" y="80" width="100" height="840" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="8">
+                    <mxGeometry x="45" y="90" width="10" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="8">
+                    <mxGeometry x="45" y="450" width="10" height="350" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="8">
+                    <mxGeometry x="45" y="230" width="10" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="智能助手&lt;div&gt;&amp;lt;control&amp;gt;&lt;/div&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+                    <mxGeometry x="440" y="80" width="100" height="840" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="10">
+                    <mxGeometry x="45" y="540" width="10" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="学生信息库&lt;div&gt;&amp;lt;entry&amp;gt;&lt;/div&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+                    <mxGeometry x="640" y="80" width="100" height="840" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="12">
+                    <mxGeometry x="45" y="90" width="10" height="710" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+                    <mxGeometry x="485" y="350" width="10" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="访问" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1">
+                    <mxGeometry x="0.0025" width="160" relative="1" as="geometry">
+                        <mxPoint x="95" y="200" as="sourcePoint"/>
+                        <mxPoint x="285" y="200" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="18" value="学生首页" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1">
+                    <mxGeometry x="0.0025" width="160" relative="1" as="geometry">
+                        <mxPoint x="285" y="240" as="sourcePoint"/>
+                        <mxPoint x="95" y="240" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="19" value="完善个人信息" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1">
+                    <mxGeometry x="0.0025" width="160" relative="1" as="geometry">
+                        <mxPoint x="95" y="280" as="sourcePoint"/>
+                        <mxPoint x="285" y="280" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="20" value="个人信息页" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1">
+                    <mxGeometry x="-0.0526" width="160" relative="1" as="geometry">
+                        <mxPoint x="285" y="320" as="sourcePoint"/>
+                        <mxPoint x="95" y="320" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="21" value="填写基本信息" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1">
+                    <mxGeometry x="0.0025" width="160" relative="1" as="geometry">
+                        <mxPoint x="95" y="360" as="sourcePoint"/>
+                        <mxPoint x="285" y="360" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="22" value="（位置，年级，科目，时薪，自述...）" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="75" y="358" width="230" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="基本信息" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1">
+                    <mxGeometry x="0.0025" width="160" relative="1" as="geometry">
+                        <mxPoint x="295" y="400" as="sourcePoint"/>
+                        <mxPoint x="485" y="400" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="25" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;entryX=0.95;entryY=0.85;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="13" target="14">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="460" y="480" as="sourcePoint"/>
+                        <mxPoint x="300" y="480" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="26" value="存储完成" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="395" y="458" width="70" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="495" y="439.5" as="sourcePoint"/>
+                        <mxPoint x="685" y="439.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="29" value="原信息&amp;amp;特征向量" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="530" y="415" width="120" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="个人主页" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1">
+                    <mxGeometry x="-0.0526" width="160" relative="1" as="geometry">
+                        <mxPoint x="285" y="560" as="sourcePoint"/>
+                        <mxPoint x="95" y="560" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="32" value="信息变动" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1">
+                    <mxGeometry x="0.0025" width="160" relative="1" as="geometry">
+                        <mxPoint x="95" y="600" as="sourcePoint"/>
+                        <mxPoint x="285" y="600" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="33" value="变更信息" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1">
+                    <mxGeometry x="0.0025" width="160" relative="1" as="geometry">
+                        <mxPoint x="295" y="640" as="sourcePoint"/>
+                        <mxPoint x="485" y="640" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="35" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="685" y="680" as="sourcePoint"/>
+                        <mxPoint x="495" y="680" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="36" value="历史信息" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="555" y="658" width="70" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="(地址，成绩，时间，目标...)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="600" width="170" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="42" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;变更信息&amp;amp;特征向量&lt;/span&gt;" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1" target="13">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="495" y="720" as="sourcePoint"/>
+                        <mxPoint x="655" y="720" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="43" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="685" y="760" as="sourcePoint"/>
+                        <mxPoint x="495" y="760" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="44" value="存储完成" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="555" y="740" width="70" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="45" value="" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="160" relative="1" as="geometry">
+                        <mxPoint x="485" y="798.8199999999999" as="sourcePoint"/>
+                        <mxPoint x="295" y="798.8199999999999" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="46" value="折线图&amp;amp;分析报告&amp;amp;存储信息" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="305" y="778" width="170" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="47" value="个人主页" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;" edge="1" parent="1">
+                    <mxGeometry x="-0.0526" width="160" relative="1" as="geometry">
+                        <mxPoint x="285" y="840" as="sourcePoint"/>
+                        <mxPoint x="95" y="840" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="48" value="opt" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;recursiveResize=0;container=1;collapsible=0;width=50;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="248" width="730" height="250" as="geometry"/>
+                </mxCell>
+                <mxCell id="49" value="Interaction1" style="text;align=center;html=1;" vertex="1" parent="48">
+                    <mxGeometry width="100" height="20" relative="1" as="geometry">
+                        <mxPoint x="60" y="50" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
