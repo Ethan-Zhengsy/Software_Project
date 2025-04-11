@@ -16,7 +16,7 @@ graph LR
     E --> B[迭代]
 ```
 
->[!Tips]
+>[!TIP]
 > ### 如何打开.drawio文件？
 > 1. 在vscode中下载draw.io插件即可打开  
 > https://marketplace.visualstudio.com/items/?itemName=hediet.vscode-drawio
