@@ -21,13 +21,11 @@
    - 本项目采用以下分支管理策略：
 
      - `main`分支：项目的主分支，保存稳定可发布的版本
-     - `dev`分支：开发分支，团队成员的日常开发工作在此分支进行
-     - `feature/功能名`分支：从dev分支创建，用于开发新功能
-     - `bugfix/问题描述`分支：从dev分支创建，用于修复bug
-     - `docs`分支：用于更新文档
+     - `dev`分支：开发分支，团队成员的日常开发工作在此分支进行，包含docs文件夹用于存放文档类文件
+     - `feature/功能名`分支：从dev分支创建，用于开发新功能或修复bug
    - 分支工作流程：
 
-     1. 从dev分支创建功能分支或修复分支
+     1. 从dev分支创建功能分支
      2. 在相应分支上进行开发
      3. 完成后通过Pull Request合并回dev分支
      4. 定期将dev分支合并到main分支发布新版本
@@ -43,8 +41,8 @@
    # 创建并切换到feature分支
    git checkout -b feature/登录功能
 
-   # 创建并切换到bugfix分支
-   git checkout -b bugfix/修复登录问题
+   # 创建并切换到feature分支（用于修复bug）
+   git checkout -b feature/修复登录问题
    ```
 
    - 切换到已有分支：
@@ -124,8 +122,8 @@
    git checkout dev
    git pull
 
-   # 创建bug修复分支
-   git checkout -b bugfix/修复登录验证问题
+   # 创建bug修复分支（注意使用feature/前缀）
+   git checkout -b feature/修复登录验证问题
 
    # 修复bug
    # [修改代码]
@@ -135,7 +133,7 @@
    git commit -m "修复用户登录验证逻辑错误"
 
    # 推送到远程
-   git push -u origin bugfix/修复登录验证问题
+   git push -u origin feature/修复登录验证问题
 
    # 创建Pull Request请求合并
    ```
@@ -143,25 +141,40 @@
    - **示例3：更新文档**
 
    ```bash
-   # 切换到docs分支
-   git checkout docs
-
+   # 确保当前在dev分支（文档存放在dev分支的docs文件夹中）
+   git checkout dev
    git pull
 
    # 更新文档
-   # [编辑文档]
+   # [编辑docs文件夹中的文档]
 
    # 提交更改
-   git add .
+   git add docs/
    git commit -m "更新API文档和用户指南"
 
    # 推送更改
-   git push -u origin docs
-
-   # 创建Pull Request到dev分支
+   git push
    ```
 
-   - **示例4：版本发布**
+   - **示例4：更新特定文档文件**
+
+   ```bash
+   # 确保当前在dev分支
+   git checkout dev
+   git pull
+
+   # 编辑特定文档文件
+   # [编辑docs/api_reference.md文件]
+
+   # 提交特定文件的更改
+   git add docs/api_reference.md
+   git commit -m "更新API参考文档中的认证部分"
+
+   # 推送更改
+   git push
+   ```
+
+   - **示例5：版本发布**
 
    ```bash
    # 切换到dev分支确保最新
@@ -214,7 +227,7 @@
 ## 其他
 
 > [!IMPORTANT]
-> 开始搬砖前，记得先拉取远程仓库防止出现冲突  
+> 开始搬砖前，记得先拉取远程仓库防止出现冲突
 > 新的工作及时上传
 
 > [!NOTE]
