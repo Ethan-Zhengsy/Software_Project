@@ -5,6 +5,10 @@
 1. 建议在每个文件夹下（尤其是前期准备存画图的这种文件夹）建立readme文件，备注文件夹下的主要文件的内容，功能，因为有时候看几个字的文件夹名称无法清晰理解别人的文件内容
 2. 建议上传时如果可以导出png文件，则在目录里同时存一个图片
 
+## 文件介绍
+
+
+
 > [!IMPORTANT]
 > 开始搬砖前，记得先拉取远程仓库防止出现冲突
 > 新的工作及时上传
@@ -61,7 +65,7 @@
    ```bash
    # 创建并切换到feature分支
    git checkout -b feature/登录功能
-
+   
    # 创建并切换到feature分支（用于修复bug）
    git checkout -b feature/修复登录问题
    ```
@@ -71,7 +75,7 @@
    ```bash
    # 切换到dev分支
    git checkout dev
-
+   
    # 切换到main分支
    git checkout main
    ```
@@ -81,7 +85,7 @@
    ```bash
    # 首次推送新分支
    git push -u origin 分支名
-
+   
    # 后续推送
    git push
    ```
@@ -92,7 +96,7 @@
    # 将feature分支合并到dev分支
    # 先切换到dev分支
    git checkout dev
-
+   
    # 然后合并feature分支
    git merge feature/登录功能
    ```
@@ -114,27 +118,27 @@
    # 确保当前在dev分支并更新代码
    git checkout dev
    git pull
-
+   
    # 创建新功能分支
    git checkout -b feature/家教匹配算法
-
+   
    # 进行开发...
    # [编写代码]
-
+   
    # 添加并提交更改
    git add .
    git commit -m "实现家教匹配算法的基础框架"
-
+   
    # 继续开发...
    # [编写更多代码]
-
+   
    # 再次提交
    git add .
    git commit -m "完成匹配算法核心逻辑"
-
+   
    # 推送到远程仓库
    git push -u origin feature/家教匹配算法
-
+   
    # 在GitHub上创建Pull Request，请求合并到dev分支
    # 团队成员审核后合并
    ```
@@ -145,20 +149,20 @@
    # 切换到dev分支并更新
    git checkout dev
    git pull
-
+   
    # 创建bug修复分支（注意使用feature/前缀）
    git checkout -b feature/修复登录验证问题
-
+   
    # 修复bug
    # [修改代码]
-
+   
    # 提交修复
    git add .
    git commit -m "修复用户登录验证逻辑错误"
-
+   
    # 推送到远程
    git push -u origin feature/修复登录验证问题
-
+   
    # 创建Pull Request请求合并
    ```
 
@@ -168,14 +172,14 @@
    # 确保当前在dev分支（文档存放在dev分支的docs文件夹中）
    git checkout dev
    git pull
-
+   
    # 更新文档
    # [编辑docs文件夹中的文档]
-
+   
    # 提交更改
    git add docs/
    git commit -m "更新API文档和用户指南"
-
+   
    # 推送更改
    git push
    ```
@@ -186,14 +190,14 @@
    # 确保当前在dev分支
    git checkout dev
    git pull
-
+   
    # 编辑特定文档文件
    # [编辑docs/api_reference.md文件]
-
+   
    # 提交特定文件的更改
    git add docs/api_reference.md
    git commit -m "更新API参考文档中的认证部分"
-
+   
    # 推送更改
    git push
    ```
@@ -204,20 +208,20 @@
    # 切换到dev分支确保最新
    git checkout dev
    git pull
-
+   
    # 切换到main分支并更新
    git checkout main
    git pull
-
+   
    # 合并dev到main
    git merge dev
-
+   
    # 解决可能的冲突
    # [解决冲突]
-
+   
    # 添加版本标签
    git tag -a v1.0.0 -m "第一个正式版本"
-
+   
    # 推送main分支和标签
    git push
    git push --tags
