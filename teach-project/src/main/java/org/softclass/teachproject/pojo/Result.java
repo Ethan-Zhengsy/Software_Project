@@ -5,7 +5,7 @@ public class Result<T> {
     private String msg;
     private T data;
     public static <T> Result<T> success(T data){
-        Result result = new Result();
+        Result<T> result = new Result<T>();
         result.setCode(200);
         result.setMsg("success");
         result.setData(data);

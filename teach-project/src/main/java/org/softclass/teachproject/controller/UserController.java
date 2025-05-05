@@ -16,7 +16,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     @PostMapping("/add")
-    public Result add (@RequestBody UserDTO userDTO){
+    public Result<UserDTO> add (@RequestBody UserDTO userDTO){
 
         System.out.println(userDTO);
         User addUser = userService.add(userDTO);
