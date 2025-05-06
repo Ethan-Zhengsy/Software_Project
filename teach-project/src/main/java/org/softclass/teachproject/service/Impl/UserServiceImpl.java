@@ -1,6 +1,7 @@
 package org.softclass.teachproject.service.Impl;
 
 import org.softclass.teachproject.pojo.DTO.UserDTO;
+import org.softclass.teachproject.pojo.DTO.UserVO;
 import org.softclass.teachproject.pojo.entity.User;
 import org.softclass.teachproject.repository.UserRepository;
 import org.softclass.teachproject.service.UserService;
@@ -13,10 +14,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
     @Override
-    public User add(UserDTO userDTO) {
+    public UserVO add(UserDTO userDTO) {
         User user = new User();
         BeanUtils.copyProperties(userDTO,user);
         //调用数据库相关
-        return userRepository.save(user);
+        User saveUser = userRepository.save(user);
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(saveUser,userVO);
+        return userVO;
+
     }
 }

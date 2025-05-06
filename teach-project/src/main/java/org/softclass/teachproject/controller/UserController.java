@@ -1,6 +1,7 @@
 package org.softclass.teachproject.controller;
 
 import org.softclass.teachproject.pojo.DTO.UserDTO;
+import org.softclass.teachproject.pojo.DTO.UserVO;
 import org.softclass.teachproject.pojo.Result;
 import org.softclass.teachproject.pojo.entity.User;
 import org.softclass.teachproject.service.UserService;
@@ -16,10 +17,10 @@ public class UserController {
     @Autowired
     private UserService userService;
     @PostMapping("/add")
-    public Result<UserDTO> add (@RequestBody UserDTO userDTO){
+    public Result<UserVO> add (@RequestBody UserDTO userDTO){
 
         System.out.println(userDTO);
-        User addUser = userService.add(userDTO);
+        UserVO addUser = userService.add(userDTO);
         return Result.success(addUser);
     }
 
