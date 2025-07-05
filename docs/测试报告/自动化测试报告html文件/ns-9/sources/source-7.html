@@ -1,0 +1,108 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MatchService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.tutorial.tutorial_platform.service</a>
+</div>
+
+<h1>Coverage Summary for Class: MatchService (org.tutorial.tutorial_platform.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">MatchService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.tutorial.tutorial_platform.service;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.core.JsonProcessingException;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.tutorial.tutorial_platform.dto.MatchStudentDTO;
+&nbsp;import org.tutorial.tutorial_platform.dto.MatchTeacherDTO;
+&nbsp;import org.tutorial.tutorial_platform.pojo.Student;
+&nbsp;import org.tutorial.tutorial_platform.vo.MatchStudentVO;
+&nbsp;import org.tutorial.tutorial_platform.vo.MatchTeacherVO;
+&nbsp;
+&nbsp;/**
+&nbsp; * 匹配服务接口：提供学生与教师之间的智能匹配功能
+&nbsp; */
+&nbsp;public interface MatchService {
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 存储向量
+&nbsp;     *
+&nbsp;     * @param userId 前端传入的匹配参数，包含分页信息及筛选条件
+&nbsp;     * @return 分页结果，包含按相似度排序的教师 VO 列表
+&nbsp;     */
+&nbsp;    void saveWithVector(Long userId) throws JsonProcessingException;
+&nbsp;    /**
+&nbsp;     * 根据学生匹配条件（如科目、年级）获取 AI 排序后的老师列表
+&nbsp;     *
+&nbsp;     * @param matchStudentDTO 前端传入的匹配参数，包含分页信息及筛选条件
+&nbsp;     * @return 分页结果，包含按相似度排序的教师 VO 列表
+&nbsp;     */
+&nbsp;
+&nbsp;    Page&lt;MatchTeacherVO&gt; findTeachersWithAi(MatchStudentDTO matchStudentDTO) throws JsonProcessingException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 根据教师的匹配条件（如科目、年级）获取 AI 排序后的学生列表
+&nbsp;     *
+&nbsp;     * @param matchTeacherDTO 前端传入的匹配参数，包含分页信息及筛选条件
+&nbsp;     * @return 分页结果，包含按相似度排序的学生 VO 列表
+&nbsp;     */
+&nbsp;    Page&lt;MatchStudentVO&gt; findStudentsWithAi(MatchTeacherDTO matchTeacherDTO) throws JsonProcessingException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-07-04 18:00</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,245 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ChatController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.tutorial.tutorial_platform.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ChatController (org.tutorial.tutorial_platform.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChatController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (25/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.tutorial.tutorial_platform.controller;
+&nbsp;
+&nbsp;import jakarta.servlet.http.HttpServletRequest;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.PageRequest;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.data.domain.Sort;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;import org.tutorial.tutorial_platform.dto.ChatMessageDTO;
+&nbsp;import org.tutorial.tutorial_platform.service.ChatService;
+&nbsp;import org.tutorial.tutorial_platform.vo.ChatMessageVO;
+&nbsp;import org.tutorial.tutorial_platform.vo.ChatSessionVO;
+&nbsp;
+&nbsp;/**
+&nbsp; * ChatController - 聊天控制器
+&nbsp; * 处理所有与聊天相关的 HTTP 请求，包括会话管理、消息管理和未读消息管理
+&nbsp; *
+&nbsp; * 元信息：
+&nbsp; * @author zxf
+&nbsp; */
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/api/chat&quot;)
+<b class="fc">&nbsp;public class ChatController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private ChatService chatService;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 创建或进入私聊会话
+&nbsp;     * @param request      包含从JWT解析的当前用户信息
+&nbsp;     * @param targetUserId 目标用户ID（必须传）
+&nbsp;     * @return 会话信息
+&nbsp;     */
+&nbsp;    @PostMapping(&quot;/sessions&quot;)
+&nbsp;    public ResponseEntity&lt;ChatSessionVO&gt; createOrEnterPrivateSession(
+&nbsp;            HttpServletRequest request,
+&nbsp;            @RequestParam Long targetUserId) {
+&nbsp;        // 1. 从认证信息中获取当前用户
+<b class="fc">&nbsp;        Long currentUserId = (Long) request.getAttribute(&quot;userId&quot;);</b>
+&nbsp;        // 2. 调用服务层处理
+<b class="fc">&nbsp;        ChatSessionVO session = chatService.createAndEnterSession(currentUserId, targetUserId);</b>
+&nbsp;        // 3. 返回结果
+<b class="fc">&nbsp;        return ResponseEntity.ok(session);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 获取用户的会话列表
+&nbsp;     * @param request 网络请求
+&nbsp;     * @return 会话列表
+&nbsp;     */
+&nbsp;    @GetMapping(&quot;/sessions&quot;)
+&nbsp;    public ResponseEntity&lt;Page&lt;ChatSessionVO&gt;&gt; getUserSessions(
+&nbsp;            HttpServletRequest request,
+&nbsp;            @RequestParam(defaultValue = &quot;0&quot;) int page,      // 页码，默认为0
+&nbsp;            @RequestParam(defaultValue = &quot;10&quot;) int size) {   // 每页条数，默认为10
+&nbsp;        // 1. 获取当前用户ID
+<b class="fc">&nbsp;        Long curUserId = (Long) request.getAttribute(&quot;userId&quot;);</b>
+&nbsp;        // 2. 构建分页参数
+<b class="fc">&nbsp;        Pageable pageable = PageRequest.of(page, size);</b>
+&nbsp;        // 3. 调用服务层
+<b class="fc">&nbsp;        return ResponseEntity.ok(chatService.getUserSessions(curUserId, pageable));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 发送消息
+&nbsp;     * @param request 网络请求
+&nbsp;     * @param messageDTO 消息数据
+&nbsp;     * @return 发送的消息
+&nbsp;     */
+&nbsp;    @PostMapping(&quot;/messages&quot;)
+&nbsp;    public ResponseEntity&lt;ChatMessageVO&gt; sendMessage(
+&nbsp;            HttpServletRequest request,
+&nbsp;            @Valid @RequestBody ChatMessageDTO messageDTO) {
+&nbsp;        // 1. 从拦截器设置的request属性中获取当前用户ID
+<b class="fc">&nbsp;        Long curUserId = (Long) request.getAttribute(&quot;userId&quot;);</b>
+&nbsp;        // 2. 调用服务层发送消息
+<b class="fc">&nbsp;        ChatMessageVO sentMessage = chatService.sendMessage(messageDTO,curUserId);</b>
+&nbsp;        // 3. 返回响应结果
+<b class="fc">&nbsp;        return ResponseEntity.ok(sentMessage);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 获取会话消息历史
+&nbsp;     * @param request 网络请求
+&nbsp;     * @return 消息列表
+&nbsp;     */
+&nbsp;    @GetMapping(&quot;/messages&quot;)
+&nbsp;    public ResponseEntity&lt;Page&lt;ChatMessageVO&gt;&gt; getSessionMessages(
+&nbsp;            HttpServletRequest request,
+&nbsp;            @RequestParam Long sessionId,          // 会话ID
+&nbsp;            @RequestParam(defaultValue = &quot;0&quot;) int page,   // 页码，默认0
+&nbsp;            @RequestParam(defaultValue = &quot;10&quot;) int size   // 每页条数，默认10
+&nbsp;    ) {
+&nbsp;        // 1. 获取当前用户ID
+<b class="fc">&nbsp;        Long curUserId = (Long) request.getAttribute(&quot;userId&quot;);</b>
+&nbsp;        // 2. 构建分页请求（按时间倒序）
+<b class="fc">&nbsp;        Pageable pageable = PageRequest.of(</b>
+<b class="fc">&nbsp;                page,</b>
+<b class="fc">&nbsp;                size,</b>
+<b class="fc">&nbsp;                Sort.by(&quot;createTime&quot;).descending()</b>
+&nbsp;        );
+&nbsp;        // 3. 调用服务层
+<b class="fc">&nbsp;        Page&lt;ChatMessageVO&gt; messages = chatService.getSessionMessages(</b>
+<b class="fc">&nbsp;                sessionId,</b>
+<b class="fc">&nbsp;                curUserId,</b>
+<b class="fc">&nbsp;                pageable</b>
+&nbsp;        );
+<b class="fc">&nbsp;        return ResponseEntity.ok(messages);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 获取当前用户所有未读消息
+&nbsp;     * @param request 网络请求
+&nbsp;     * @return 当前用户未读消息数
+&nbsp;     */
+&nbsp;    @GetMapping(&quot;/UnreadMsgCount&quot;)
+&nbsp;    public ResponseEntity&lt;Integer&gt; getUserUnreadCount(HttpServletRequest request) {
+<b class="fc">&nbsp;        Long curUserId = (Long) request.getAttribute(&quot;userId&quot;);</b>
+<b class="fc">&nbsp;        return ResponseEntity.ok(chatService.getUserUnreadCount(curUserId));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 删除会话
+&nbsp;     * @param request 网络请求
+&nbsp;     * @param sessionId 要删除的会话Id
+&nbsp;     */
+&nbsp;    @DeleteMapping(&quot;/deleteSession&quot;)
+&nbsp;    public void deleteSession(HttpServletRequest request,@RequestBody Integer sessionId) {
+<b class="fc">&nbsp;        Long curUserId = (Long) request.getAttribute(&quot;userId&quot;);</b>
+<b class="fc">&nbsp;        String userType = (String) request.getAttribute(&quot;userType&quot;);</b>
+<b class="fc">&nbsp;        chatService.deleteSession(sessionId,curUserId,userType);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-07-04 17:54</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,123 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UserSessionMappingRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.tutorial.tutorial_platform.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: UserSessionMappingRepository (org.tutorial.tutorial_platform.repository)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">UserSessionMappingRepository</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.tutorial.tutorial_platform.repository;
+&nbsp;
+&nbsp;import jakarta.transaction.Transactional;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Modifying;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.data.repository.query.Param;
+&nbsp;import org.tutorial.tutorial_platform.pojo.UserSessionMapping;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;/**
+&nbsp; * UserSessionMappingRepository - 用户会话映射数据访问接口
+&nbsp; * 提供对 user_session_mapping 表的 CRUD 操作
+&nbsp; *
+&nbsp; * 元信息：
+&nbsp; * @author zxf
+&nbsp; */
+&nbsp;public interface UserSessionMappingRepository extends JpaRepository&lt;UserSessionMapping, Long&gt; {
+&nbsp;    /**
+&nbsp;     * 根据userId和sessionId查询是否存在对应的用户会话
+&nbsp;     */
+&nbsp;    @Query(&quot;SELECT usm FROM UserSessionMapping usm WHERE usm.userId = :userId AND usm.sessionId = :sessionId&quot;)
+&nbsp;    Optional&lt;UserSessionMapping&gt; findByUserIdAndSessionId(@Param(&quot;userId&quot;) Long userId, @Param(&quot;sessionId&quot;) Long sessionId);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 根据用户ID获取所有会话，按照最后消息时间排序
+&nbsp;     */
+&nbsp;    @Query(&quot;SELECT usm FROM UserSessionMapping usm &quot; +
+&nbsp;            &quot;JOIN usm.chatSession cs &quot; +  // 使用关联对象导航
+&nbsp;           &quot;WHERE usm.userId = :userId &quot; +  // 筛选条件
+&nbsp;           &quot;ORDER BY cs.lastMessageTime DESC NULLS LAST&quot;)  // 时间倒序排列，Null排最后
+&nbsp;    Page&lt;UserSessionMapping&gt; findUserSessionsOrderByLastMessageTime(
+&nbsp;            @Param(&quot;userId&quot;) Long userId,
+&nbsp;            Pageable pageable
+&nbsp;    );
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 根据sessionId删除用户会话映射
+&nbsp;     */
+&nbsp;    @Modifying
+&nbsp;    @Transactional
+&nbsp;    @Query(&quot;DELETE FROM UserSessionMapping usm WHERE usm.sessionId = :sessionId&quot;)
+&nbsp;    void deleteMappingBySessionId(@Param(&quot;sessionId&quot;) Long sessionId);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 根据sessionId查找所有用户会话映射（返回列表，可能为空）
+&nbsp;     */
+&nbsp;    @Query(&quot;SELECT usm FROM UserSessionMapping usm WHERE usm.sessionId = :sessionId&quot;)
+&nbsp;    List&lt;UserSessionMapping&gt; findAllBySessionId(@Param(&quot;sessionId&quot;) Long sessionId);
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-07-04 18:00</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,123 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ChatSessionRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.tutorial.tutorial_platform.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: ChatSessionRepository (org.tutorial.tutorial_platform.repository)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ChatSessionRepository</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.tutorial.tutorial_platform.repository;
+&nbsp;
+&nbsp;import jakarta.transaction.Transactional;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Modifying;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.data.repository.query.Param;
+&nbsp;import org.tutorial.tutorial_platform.pojo.ChatSession;
+&nbsp;import org.tutorial.tutorial_platform.pojo.UserSessionMapping;
+&nbsp;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;/**
+&nbsp; * ChatSessionRepository - 聊天会话数据访问接口
+&nbsp; * 提供对 chat_session 表的 CRUD 操作
+&nbsp; * 元信息：
+&nbsp; * @author zxf
+&nbsp; */
+&nbsp;public interface ChatSessionRepository extends JpaRepository&lt;ChatSession, Long&gt; {
+&nbsp;    // 查询逻辑：满足下列两种情况之一即可：
+&nbsp;    // 1. teacherUserId 等于 userId1 且 studentUserId 等于 userId2
+&nbsp;    // 2. teacherUserId 等于 userId2 且 studentUserId 等于 userId1
+&nbsp;    // 功能：用于在创建会话时查询是否已经存在会话，返回会话或者
+&nbsp;    @Query(&quot;SELECT cs FROM ChatSession cs &quot; +
+&nbsp;            &quot;WHERE (cs.teacherUserId = :userId1 AND cs.studentUserId = :userId2) &quot; +
+&nbsp;            &quot;OR (cs.teacherUserId = :userId2 AND cs.studentUserId = :userId1)&quot;)
+&nbsp;    Optional&lt;ChatSession&gt; findByUserIds(
+&nbsp;            @Param(&quot;userId1&quot;) Long userId1,
+&nbsp;            @Param(&quot;userId2&quot;) Long userId2
+&nbsp;    );  // @Param用来将方法参数映射到JPQL中的命名参数:userId上
+&nbsp;
+&nbsp;    // 通过sessionId和studentUserId查找
+&nbsp;    @Query(&quot;SELECT cs FROM ChatSession cs &quot; +
+&nbsp;            &quot;WHERE cs.sessionId = :sessionId &quot; +
+&nbsp;            &quot;AND cs.studentUserId = :studentUserId &quot;)
+&nbsp;    Optional&lt;ChatSession&gt; findBySessionIdAndStudentUserId(
+&nbsp;            @Param(&quot;sessionId&quot;) Long sessionId,
+&nbsp;            @Param(&quot;studentUserId&quot;) Long studentUserId
+&nbsp;    );
+&nbsp;
+&nbsp;    // 通过sessionId和teacherUserId查找
+&nbsp;    @Query(&quot;SELECT cs FROM ChatSession cs &quot; +
+&nbsp;            &quot;WHERE cs.sessionId = :sessionId &quot; +
+&nbsp;            &quot;AND cs.teacherUserId = :teacherUserId &quot;)
+&nbsp;    Optional&lt;ChatSession&gt; findBySessionIdAndTeacherUserId(
+&nbsp;            @Param(&quot;sessionId&quot;) Long sessionId,
+&nbsp;            @Param(&quot;teacherUserId&quot;) Long teacherUserId
+&nbsp;    );
+&nbsp;
+&nbsp;    // 根据sessionId删除会话
+&nbsp;    @Modifying
+&nbsp;    @Transactional
+&nbsp;    @Query(&quot;DELETE FROM ChatSession cs WHERE cs.sessionId = :sessionId&quot;)
+&nbsp;    void deleteSessionBySessionId(@Param(&quot;sessionId&quot;) Long sessionId);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-07-04 18:00</div>
+</div>
+</body>
+</html>
