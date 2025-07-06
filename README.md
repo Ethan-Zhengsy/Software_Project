@@ -37,4 +37,8 @@
 
 ## GitHub仓库
 
-https://github.com/Ethan-Zhengsy/Software_Project.git
+文档仓库：https://github.com/Ethan-Zhengsy/Software_Project.git
+
+前端仓库：https://github.com/Ethan-Zhengsy/teach_vue.git
+
+后端仓库：https://github.com/zhengxf37/teach_springboot.git
