@@ -1,0 +1,121 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > FileUploadService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.tutorial.tutorial_platform.service</a>
+</div>
+
+<h1>Coverage Summary for Class: FileUploadService (org.tutorial.tutorial_platform.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">FileUploadService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.tutorial.tutorial_platform.service;
+&nbsp;
+&nbsp;import org.springframework.web.multipart.MultipartFile;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * FileUploadService - 文件上传服务接口
+&nbsp; * 
+&nbsp; * 提供文件上传相关的核心业务逻辑，包括：
+&nbsp; * - 多文件上传：支持批量上传文件
+&nbsp; * - 文件列表查询：获取用户上传的文件列表
+&nbsp; * 
+&nbsp; * 安全说明：
+&nbsp; * - 所有操作都需要验证用户身份
+&nbsp; * - 用户只能访问自己的文件
+&nbsp; * 
+&nbsp; * 元信息：
+&nbsp; * @author 周宏杰
+&nbsp; * @version 1.0
+&nbsp; * @since 2025-05-13
+&nbsp; */
+&nbsp;public interface FileUploadService {
+&nbsp;    /**
+&nbsp;     * 上传多个文件
+&nbsp;     * @param userId 用户ID
+&nbsp;     * @param files 要上传的文件数组
+&nbsp;     * @return 文件访问URL列表
+&nbsp;     * @throws IOException 文件操作异常
+&nbsp;     * @throws IllegalArgumentException 当文件数组为空时抛出
+&nbsp;     */
+&nbsp;    List&lt;String&gt; uploadFiles(Long userId, MultipartFile[] files) throws IOException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 获取用户上传的文件列表
+&nbsp;     * @param userId 用户ID
+&nbsp;     * @return 文件访问URL列表
+&nbsp;     */
+&nbsp;    List&lt;String&gt; listUserFiles(Long userId);
+&nbsp;    /**
+&nbsp;     * 上传用户头像
+&nbsp;     * @param userId 用户ID
+&nbsp;     * @param file 头像文件
+&nbsp;     * @return 文件访问URL
+&nbsp;     * @throws IOException 文件操作异常
+&nbsp;     * @throws IllegalArgumentException 当文件类型不正确时抛出
+&nbsp;     */
+&nbsp;    String uploadAvatar(Long userId, MultipartFile file) throws IOException;
+&nbsp;    /**
+&nbsp;     * 获取用户头像访问URL
+&nbsp;     */
+&nbsp;    String listUserAvatar(Long userId);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-07-04 18:00</div>
+</div>
+</body>
+</html>

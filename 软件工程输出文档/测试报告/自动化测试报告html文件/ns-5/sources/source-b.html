@@ -1,0 +1,114 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UserSessionMapping</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.tutorial.tutorial_platform.pojo</a>
+</div>
+
+<h1>Coverage Summary for Class: UserSessionMapping (org.tutorial.tutorial_platform.pojo)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">UserSessionMapping$HibernateInstantiator</td>
+  </tr>
+  <tr>
+    <td class="name">UserSessionMapping$HibernateProxy</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.tutorial.tutorial_platform.pojo;
+&nbsp;
+&nbsp;import jakarta.persistence.*;
+&nbsp;import lombok.Data;
+&nbsp;import lombok.Setter;
+&nbsp;
+&nbsp;/**
+&nbsp; * UserSessionMapping - 用户会话映射实体类
+&nbsp; * 与数据库表 user_session_mapping 对应
+&nbsp; * 元信息：
+&nbsp; * @author zxf
+&nbsp; */
+&nbsp;@Data
+&nbsp;@Entity
+&nbsp;@Table(name = &quot;user_session_mapping&quot;)
+&nbsp;public class UserSessionMapping {
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+&nbsp;    @Column(name = &quot;id&quot;)
+&nbsp;    private Long id;
+&nbsp;
+&nbsp;    @Column(name = &quot;user_id&quot;, nullable = false)
+&nbsp;    private Long userId;
+&nbsp;
+&nbsp;    @Column(name = &quot;unread_count&quot;, nullable = false)
+&nbsp;    private Integer unreadCount = 0;
+&nbsp;
+&nbsp;    // 只读配置：insertable = false, updatable = false
+&nbsp;    // 表示 Hibernate 不会通过这个字段来插入或更新数据库，而是通过关联对象（chatSession）来维护。
+&nbsp;    @Column(name = &quot;session_id&quot;, insertable = false, updatable = false)
+&nbsp;    private Long sessionId;
+&nbsp;
+&nbsp;    @ManyToOne(fetch = FetchType.LAZY)  // 多对一关联，只有查询时才会加载
+&nbsp;    @JoinColumn(name = &quot;session_id&quot;, nullable = false)  // 数据库表中用于关联的外键字段名称为sessionId，且对UserMapping表插入和更新时，不会修改SessionId字段
+&nbsp;    private ChatSession chatSession;  // 新增关联字段
+&nbsp;    // ps: 在设置userSessionMapping的Session_id时，需要通过设置关联对象来更新外键
+&nbsp;    // mapping.setChatSession(newSession); 设置关联对象，而非直接修改sessionId字段
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-07-04 18:00</div>
+</div>
+</body>
+</html>

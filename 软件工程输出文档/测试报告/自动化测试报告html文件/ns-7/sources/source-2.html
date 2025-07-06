@@ -1,0 +1,261 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > JwtUtil</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.tutorial.tutorial_platform.util</a>
+</div>
+
+<h1>Coverage Summary for Class: JwtUtil (org.tutorial.tutorial_platform.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JwtUtil</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (2/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (26/26)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.tutorial.tutorial_platform.util;
+&nbsp;
+&nbsp;import io.jsonwebtoken.Claims;
+&nbsp;import io.jsonwebtoken.Jwts;
+&nbsp;import io.jsonwebtoken.SignatureAlgorithm;
+&nbsp;import io.jsonwebtoken.security.Keys;
+&nbsp;import org.springframework.beans.factory.annotation.Value;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;import org.tutorial.tutorial_platform.pojo.User;
+&nbsp;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.security.Key;
+&nbsp;import java.util.Date;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.function.Function;
+&nbsp;
+&nbsp;/**
+&nbsp; * JwtUtil - JWT工具类
+&nbsp; *
+&nbsp; * 提供JWT token的生成、解析和验证功能，包括：
+&nbsp; * - 生成token：基于用户信息创建JWT令牌
+&nbsp; * - 验证token：检查token的有效性和完整性
+&nbsp; * - 解析token：从token中提取用户信息
+&nbsp; *
+&nbsp; * 核心功能：
+&nbsp; * - token生成：使用用户ID、用户名和用户类型生成token
+&nbsp; * - token验证：验证token的签名和过期时间
+&nbsp; * - 信息提取：从token中获取用户信息
+&nbsp; *
+&nbsp; * 元信息：
+&nbsp; * @author zxf
+&nbsp; */
+&nbsp;@Component  // 标注组件，可注入其他类
+<b class="fc">&nbsp;public class JwtUtil {</b>
+&nbsp;    @Value(&quot;${jwt.secret}&quot;)  // 注入application.properties的密钥
+&nbsp;    private String secret;
+&nbsp;
+&nbsp;    @Value(&quot;${jwt.expiration}&quot;)  // 注入application.properties的过期时间
+&nbsp;    private Long expiration;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 生成JWT密钥
+&nbsp;     * @return Key 用于签名和验证的密钥
+&nbsp;     */
+&nbsp;    private Key getSigningKey() {
+<b class="fc">&nbsp;        byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);  // 使用UTF-8编码转换为字节数组</b>
+<b class="fc">&nbsp;        return Keys.hmacShaKeyFor(keyBytes);  // 生成签名和验证的密钥</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 从token中提取用户名
+&nbsp;     * @param token JWT令牌
+&nbsp;     * @return String 用户名
+&nbsp;     */
+&nbsp;    public String extractUsername(String token) {
+<b class="fc">&nbsp;        return extractClaim(token, Claims::getSubject);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 从token中提取过期时间
+&nbsp;     * @param token JWT令牌
+&nbsp;     * @return Date 过期时间
+&nbsp;     */
+&nbsp;    public Date extractExpiration(String token) {
+<b class="fc">&nbsp;        return extractClaim(token, Claims::getExpiration);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 从token中提取指定信息
+&nbsp;     * @param token JWT令牌
+&nbsp;     * @param claimsResolver 信息提取函数，接受claim，返回T
+&nbsp;     * @return T 提取的信息
+&nbsp;     */
+&nbsp;    public &lt;T&gt; T extractClaim(String token, Function&lt;Claims, T&gt; claimsResolver) {
+<b class="fc">&nbsp;        final Claims claims = extractAllClaims(token);</b>
+<b class="fc">&nbsp;        return claimsResolver.apply(claims);  // 相当于claims.claimsResolver() / claimResolver(claims)</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 从token中提取所有信息
+&nbsp;     * @param token JWT令牌
+&nbsp;     * @return Claims 所有信息
+&nbsp;     */
+&nbsp;    private Claims extractAllClaims(String token) {
+<b class="fc">&nbsp;        return Jwts.parserBuilder() // 配置一个JWT解析器</b>
+<b class="fc">&nbsp;                .setSigningKey(getSigningKey())  // 设置用于验证JWT签名的密钥。</b>
+<b class="fc">&nbsp;                .build()  // 生成JwtParser实例对象</b>
+<b class="fc">&nbsp;                .parseClaimsJws(token)  // 解析带签名的jwt，不正确则会抛出异常！</b>
+<b class="fc">&nbsp;                .getBody();  // 返回payload部分</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 检查token是否过期
+&nbsp;     * @param token JWT令牌
+&nbsp;     * @return boolean 是否过期
+&nbsp;     */
+&nbsp;    private Boolean isTokenExpired(String token) {
+<b class="fc">&nbsp;        return extractExpiration(token).before(new Date());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 为用户生成token
+&nbsp;     * @param user 用户信息
+&nbsp;     * @return String JWT令牌
+&nbsp;     */
+&nbsp;    public String generateToken(User user) {
+<b class="fc">&nbsp;        Map&lt;String, Object&gt; claims = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        claims.put(&quot;userId&quot;, user.getUserId());</b>
+<b class="fc">&nbsp;        claims.put(&quot;userType&quot;, user.getUserType().name());</b>
+<b class="fc">&nbsp;        return createToken(claims, user.getUsername());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 创建token
+&nbsp;     * @param claims 要包含的信息（自定义），这里包括了userId和userType
+&nbsp;     * @param subject 主题（用户名）
+&nbsp;     * @return String JWT令牌
+&nbsp;     * 注：其中令牌包括三部分内容：
+&nbsp;     * Header: 包含算法和令牌类型：如:算法&quot;alg&quot;:&quot;HS256&quot;，令牌类型&quot;typ&quot;:&quot;JWT&quot;
+&nbsp;     * Payload: 有效载荷，存储 JWT 的声明（claims），包括标准声明（如 sub, iat, exp）和自定义声明（如 userId）。
+&nbsp;     * Signature: 依赖密钥的签名，生成过程是对Header和Payload拼接编码用密钥计算HMAC哈希，最后再进行Base64URL编码签名。
+&nbsp;     * 因此，当服务端拿到JWT时，可以计算签名来验证令牌有效性。
+&nbsp;     */
+&nbsp;    private String createToken(Map&lt;String, Object&gt; claims, String subject) {
+<b class="fc">&nbsp;        return Jwts.builder()</b>
+<b class="fc">&nbsp;                .setClaims(claims)  // 设置自定义信息</b>
+<b class="fc">&nbsp;                .setSubject(subject)  // 主题</b>
+<b class="fc">&nbsp;                .setIssuedAt(new Date(System.currentTimeMillis()))  // 设置签发时间</b>
+<b class="fc">&nbsp;                .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))  // 设置有效期截止时间</b>
+<b class="fc">&nbsp;                .signWith(getSigningKey(), SignatureAlgorithm.HS256)  // 使用 HMAC-SHA256算法对JWT进行签名。</b>
+<b class="fc">&nbsp;                .compact();  // 生成的 JWT 格式：xxxxx.yyyyy.zzzzz（header.payload.signature）。</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 验证token
+&nbsp;     * @param token JWT令牌
+&nbsp;     * @param username 用户名
+&nbsp;     * @return boolean 是否有效
+&nbsp;     */
+&nbsp;    public Boolean validateToken(String token, String username) {
+<b class="fc">&nbsp;        final String extractedUsername = extractUsername(token);</b>
+<b class="pc">&nbsp;        return (extractedUsername.equals(username) &amp;&amp; !isTokenExpired(token));</b>
+&nbsp;    }
+&nbsp;} 
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-07-04 18:00</div>
+</div>
+</body>
+</html>

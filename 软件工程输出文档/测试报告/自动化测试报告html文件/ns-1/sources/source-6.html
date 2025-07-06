@@ -1,0 +1,281 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ChatControllerTest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.tutorial.tutorial_platform.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ChatControllerTest (org.tutorial.tutorial_platform.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChatControllerTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (76/76)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.tutorial.tutorial_platform.controller;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.databind.JsonNode;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;import org.junit.jupiter.api.*;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+&nbsp;import org.springframework.boot.test.context.SpringBootTest;
+&nbsp;import org.springframework.http.MediaType;
+&nbsp;import org.springframework.test.web.servlet.MockMvc;
+&nbsp;import org.springframework.test.web.servlet.MvcResult;
+&nbsp;import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+&nbsp;import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+&nbsp;import org.tutorial.tutorial_platform.dto.LoginDTO;
+&nbsp;
+&nbsp;@SpringBootTest(classes = org.tutorial.tutorial_platform.TutorialPlatformApplication.class)
+&nbsp;@AutoConfigureMockMvc
+&nbsp;@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+<b class="fc">&nbsp;class ChatControllerTest {</b>
+&nbsp;    @Autowired
+&nbsp;    private MockMvc mockMvc;
+&nbsp;    @Autowired
+&nbsp;    private ObjectMapper objectMapper;
+&nbsp;
+&nbsp;    private static String XIAOMING_TOKEN;
+&nbsp;    private static String DAXUESHENG_TOKEN;
+&nbsp;    private static Long SESSION_ID;
+&nbsp;    private static Long XIAOMING_ID;
+&nbsp;    private static Long DAXUESHENG_ID;
+&nbsp;
+&nbsp;    @BeforeAll
+&nbsp;    static void initTokens(@Autowired MockMvc mockMvc, @Autowired ObjectMapper objectMapper) throws Exception {
+&nbsp;        // 登录小明
+<b class="fc">&nbsp;        LoginDTO xmLogin = new LoginDTO();</b>
+<b class="fc">&nbsp;        xmLogin.setUsername(&quot;user1&quot;);</b>
+<b class="fc">&nbsp;        xmLogin.setPassword(&quot;123456&quot;);</b>
+<b class="fc">&nbsp;        MvcResult xmResult = mockMvc.perform(MockMvcRequestBuilders.post(&quot;/api/auth/login&quot;)</b>
+<b class="fc">&nbsp;                .contentType(MediaType.APPLICATION_JSON)</b>
+<b class="fc">&nbsp;                .content(objectMapper.writeValueAsString(xmLogin)))</b>
+<b class="fc">&nbsp;                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();</b>
+<b class="fc">&nbsp;        String xmBody = xmResult.getResponse().getContentAsString();</b>
+<b class="fc">&nbsp;        JsonNode xmNode = objectMapper.readTree(xmBody);</b>
+<b class="fc">&nbsp;        XIAOMING_TOKEN = xmNode.get(&quot;token&quot;).asText();</b>
+<b class="fc">&nbsp;        XIAOMING_ID = xmNode.get(&quot;userId&quot;).asLong();</b>
+&nbsp;
+&nbsp;        // 登录大学生
+<b class="fc">&nbsp;        LoginDTO dxsLogin = new LoginDTO();</b>
+<b class="fc">&nbsp;        dxsLogin.setUsername(&quot;user2&quot;);</b>
+<b class="fc">&nbsp;        dxsLogin.setPassword(&quot;123456&quot;);</b>
+<b class="fc">&nbsp;        MvcResult dxsResult = mockMvc.perform(MockMvcRequestBuilders.post(&quot;/api/auth/login&quot;)</b>
+<b class="fc">&nbsp;                .contentType(MediaType.APPLICATION_JSON)</b>
+<b class="fc">&nbsp;                .content(objectMapper.writeValueAsString(dxsLogin)))</b>
+<b class="fc">&nbsp;                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();</b>
+<b class="fc">&nbsp;        String dxsBody = dxsResult.getResponse().getContentAsString();</b>
+<b class="fc">&nbsp;        JsonNode dxsNode = objectMapper.readTree(dxsBody);</b>
+<b class="fc">&nbsp;        DAXUESHENG_TOKEN = dxsNode.get(&quot;token&quot;).asText();</b>
+<b class="fc">&nbsp;        DAXUESHENG_ID = dxsNode.get(&quot;userId&quot;).asLong();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @BeforeEach
+&nbsp;    void createSession() throws Exception {
+&nbsp;        // 每次测试前都新建会话，获取sessionId
+<b class="fc">&nbsp;        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(&quot;/api/chat/sessions&quot;)</b>
+<b class="fc">&nbsp;                .param(&quot;targetUserId&quot;, String.valueOf(DAXUESHENG_ID))</b>
+<b class="fc">&nbsp;                .header(&quot;Token&quot;, XIAOMING_TOKEN))</b>
+<b class="fc">&nbsp;                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();</b>
+<b class="fc">&nbsp;        String body = result.getResponse().getContentAsString();</b>
+<b class="fc">&nbsp;        JsonNode node = objectMapper.readTree(body);</b>
+<b class="fc">&nbsp;        SESSION_ID = node.get(&quot;sessionId&quot;).asLong();</b>
+&nbsp;    }
+&nbsp;//
+&nbsp;//    @Test
+&nbsp;//    @Order(1)
+&nbsp;//    @DisplayName(&quot;创建/进入会话&quot;)
+&nbsp;//    void testCreateOrEnterSession() {
+&nbsp;//        // 已在@BeforeEach中测试，无需重复断言
+&nbsp;//    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    @Order(2)
+&nbsp;    @DisplayName(&quot;发送消息（小明向大学生）&quot;)
+&nbsp;    void testSendMessage() throws Exception {
+<b class="fc">&nbsp;        String json = String.format(&quot;{\&quot;sessionId\&quot;:%d,\&quot;senderId\&quot;:%d,\&quot;receiverId\&quot;:%d,\&quot;content\&quot;:\&quot;老师，我要学编程\&quot;}&quot;, SESSION_ID, XIAOMING_ID, DAXUESHENG_ID);</b>
+<b class="fc">&nbsp;        mockMvc.perform(MockMvcRequestBuilders.post(&quot;/api/chat/messages&quot;)</b>
+<b class="fc">&nbsp;                .contentType(MediaType.APPLICATION_JSON)</b>
+<b class="fc">&nbsp;                .content(json)</b>
+<b class="fc">&nbsp;                .header(&quot;Token&quot;, XIAOMING_TOKEN))</b>
+<b class="fc">&nbsp;                .andExpect(MockMvcResultMatchers.status().isOk());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    @Order(3)
+&nbsp;    @DisplayName(&quot;获取会话消息历史&quot;)
+&nbsp;    void testGetSessionMessages() throws Exception {
+<b class="fc">&nbsp;        mockMvc.perform(MockMvcRequestBuilders.get(&quot;/api/chat/messages&quot;)</b>
+<b class="fc">&nbsp;                .param(&quot;sessionId&quot;, String.valueOf(SESSION_ID))</b>
+<b class="fc">&nbsp;                .param(&quot;page&quot;, &quot;0&quot;)</b>
+<b class="fc">&nbsp;                .param(&quot;size&quot;, &quot;10&quot;)</b>
+<b class="fc">&nbsp;                .header(&quot;Token&quot;, XIAOMING_TOKEN))</b>
+<b class="fc">&nbsp;                .andExpect(MockMvcResultMatchers.status().isOk());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    @Order(4)
+&nbsp;    @DisplayName(&quot;获取用户会话列表（大学生）&quot;)
+&nbsp;    void testGetUserSessions() throws Exception {
+<b class="fc">&nbsp;        mockMvc.perform(MockMvcRequestBuilders.get(&quot;/api/chat/sessions&quot;)</b>
+<b class="fc">&nbsp;                .param(&quot;page&quot;, &quot;0&quot;)</b>
+<b class="fc">&nbsp;                .param(&quot;size&quot;, &quot;10&quot;)</b>
+<b class="fc">&nbsp;                .header(&quot;Token&quot;, DAXUESHENG_TOKEN))</b>
+<b class="fc">&nbsp;                .andExpect(MockMvcResultMatchers.status().isOk());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    @Order(5)
+&nbsp;    @DisplayName(&quot;获取当前用户所有未读消息数（大学生）&quot;)
+&nbsp;    void testGetUnreadMsgCount() throws Exception {
+<b class="fc">&nbsp;        mockMvc.perform(MockMvcRequestBuilders.get(&quot;/api/chat/UnreadMsgCount&quot;)</b>
+<b class="fc">&nbsp;                .header(&quot;Token&quot;, DAXUESHENG_TOKEN))</b>
+<b class="fc">&nbsp;                .andExpect(MockMvcResultMatchers.status().isOk());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    @Order(6)
+&nbsp;    @DisplayName(&quot;删除会话&quot;)
+&nbsp;    void testDeleteSession() throws Exception {
+<b class="fc">&nbsp;        mockMvc.perform(MockMvcRequestBuilders.delete(&quot;/api/chat/deleteSession&quot;)</b>
+<b class="fc">&nbsp;                .content(String.valueOf(SESSION_ID))</b>
+<b class="fc">&nbsp;                .contentType(MediaType.APPLICATION_JSON)</b>
+<b class="fc">&nbsp;                .header(&quot;Token&quot;, DAXUESHENG_TOKEN))</b>
+<b class="fc">&nbsp;                .andExpect(MockMvcResultMatchers.status().isOk());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;发送消息-内容为空应失败&quot;)
+&nbsp;    void testSendMessage_EmptyContent() throws Exception {
+<b class="fc">&nbsp;        String json = String.format(&quot;{\&quot;sessionId\&quot;:%d,\&quot;senderId\&quot;:%d,\&quot;receiverId\&quot;:%d,\&quot;content\&quot;:\&quot;\&quot;}&quot;, SESSION_ID, XIAOMING_ID, DAXUESHENG_ID);</b>
+<b class="fc">&nbsp;        mockMvc.perform(MockMvcRequestBuilders.post(&quot;/api/chat/messages&quot;)</b>
+<b class="fc">&nbsp;                .contentType(MediaType.APPLICATION_JSON)</b>
+<b class="fc">&nbsp;                .content(json)</b>
+<b class="fc">&nbsp;                .header(&quot;Token&quot;, XIAOMING_TOKEN))</b>
+<b class="fc">&nbsp;                .andExpect(result -&gt; Assertions.assertNotEquals(200, result.getResponse().getStatus()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;未登录获取会话应失败&quot;)
+&nbsp;    void testGetSessions_NoToken() throws Exception {
+<b class="fc">&nbsp;        mockMvc.perform(MockMvcRequestBuilders.get(&quot;/api/chat/sessions&quot;)</b>
+<b class="fc">&nbsp;                .param(&quot;page&quot;, &quot;0&quot;)</b>
+<b class="fc">&nbsp;                .param(&quot;size&quot;, &quot;10&quot;))</b>
+<b class="fc">&nbsp;                .andExpect(result -&gt; Assertions.assertNotEquals(200, result.getResponse().getStatus()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;删除不存在的会话应失败&quot;)
+&nbsp;    void testDeleteSession_NotExist() throws Exception {
+<b class="fc">&nbsp;        mockMvc.perform(MockMvcRequestBuilders.delete(&quot;/api/chat/deleteSession&quot;)</b>
+<b class="fc">&nbsp;                .content(&quot;99999999&quot;)</b>
+<b class="fc">&nbsp;                .contentType(MediaType.APPLICATION_JSON)</b>
+<b class="fc">&nbsp;                .header(&quot;Token&quot;, DAXUESHENG_TOKEN))</b>
+<b class="fc">&nbsp;                .andExpect(result -&gt; Assertions.assertNotEquals(200, result.getResponse().getStatus()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;自己给自己发消息应失败&quot;)
+&nbsp;    void testSendMessage_ToSelf() throws Exception {
+<b class="fc">&nbsp;        String json = String.format(&quot;{\&quot;sessionId\&quot;:%d,\&quot;senderId\&quot;:%d,\&quot;receiverId\&quot;:%d,\&quot;content\&quot;:\&quot;自言自语\&quot;}&quot;, SESSION_ID, XIAOMING_ID, XIAOMING_ID);</b>
+<b class="fc">&nbsp;        mockMvc.perform(MockMvcRequestBuilders.post(&quot;/api/chat/messages&quot;)</b>
+<b class="fc">&nbsp;                .contentType(MediaType.APPLICATION_JSON)</b>
+<b class="fc">&nbsp;                .content(json)</b>
+<b class="fc">&nbsp;                .header(&quot;Token&quot;, XIAOMING_TOKEN))</b>
+<b class="fc">&nbsp;                .andExpect(result -&gt; Assertions.assertNotEquals(200, result.getResponse().getStatus()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;} 
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-07-04 17:54</div>
+</div>
+</body>
+</html>

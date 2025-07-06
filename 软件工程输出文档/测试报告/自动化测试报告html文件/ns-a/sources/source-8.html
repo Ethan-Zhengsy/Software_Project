@@ -1,0 +1,182 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TeacherRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.tutorial.tutorial_platform.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: TeacherRepository (org.tutorial.tutorial_platform.repository)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">TeacherRepository</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.tutorial.tutorial_platform.repository;
+&nbsp;
+&nbsp;import org.apache.ibatis.annotations.Param;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;
+&nbsp;
+&nbsp;import org.tutorial.tutorial_platform.pojo.Teacher;
+&nbsp;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;
+&nbsp;/**
+&nbsp; * 教师数据访问接口
+&nbsp; * 提供对 teacher 表的增删改查操作
+&nbsp; */
+&nbsp;public interface TeacherRepository extends JpaRepository&lt;Teacher, Long&gt; {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 根据用户 ID 查找教师信息
+&nbsp;     *
+&nbsp;     * @param userId 用户 ID
+&nbsp;     * @return 封装在 Optional 中的教师实体
+&nbsp;     */
+&nbsp;    Optional&lt;Teacher&gt; findByUserUserId(Long userId);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 判断某个用户 ID 是否已存在于教师表中
+&nbsp;     *
+&nbsp;     * @param userId 用户 ID
+&nbsp;     * @return true 表示存在
+&nbsp;     */
+&nbsp;    boolean existsByUserUserId(Long userId);
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 根据科目和教授年级分页查询教师列表（不考虑性别）
+&nbsp;     *
+&nbsp;     * @return 分页的教师列表
+&nbsp;     */
+&nbsp;    List&lt;Teacher&gt; findAll();
+&nbsp;    /**
+&nbsp;     * 自定义查询接口，用于根据向量进行查询和排序
+&nbsp;     * @param studentVector 学生向量
+&nbsp;     * @param subject  科目（可选）
+&nbsp;     * @param teachGrade 年级（可选）
+&nbsp;     * @param pageable 分页参数
+&nbsp;     * @return 分页的教师列表
+&nbsp;     */
+&nbsp;    /*
+&nbsp;    @Query(
+&nbsp;            value =
+&nbsp;                    &quot;SELECT t.*, &quot; +
+&nbsp;                            &quot;    SUM(tvt.tvt_value * svt.svt_value) / &quot; +
+&nbsp;                            &quot;    (SQRT(SUM(tvt.tvt_value * tvt.tvt_value)) * SQRT(SUM(svt.svt_value * svt.svt_value))) AS similarity &quot; +
+&nbsp;                            &quot;FROM ( &quot; +
+&nbsp;                            &quot;    SELECT * &quot; +
+&nbsp;                            &quot;    FROM teacher &quot; +
+&nbsp;                            &quot;    WHERE 1=1 &quot; +
+&nbsp;                            &quot;        AND (:subject IS NULL OR subject = :subject) &quot; +
+&nbsp;                            &quot;        AND (:teachGrade IS NULL OR teach_grade = :teachGrade) &quot; +
+&nbsp;                            &quot;) t &quot; +
+&nbsp;                            &quot;JOIN (&quot; +
+&nbsp;                            &quot;    SELECT &quot; +
+&nbsp;                            &quot;        sub.user_id, &quot; +
+&nbsp;                            &quot;        sub.`value` AS tvt_value, &quot; +
+&nbsp;                            &quot;        ROW_NUMBER() OVER (PARTITION BY sub.user_id ORDER BY (SELECT NULL)) AS pos &quot; +
+&nbsp;                            &quot;    FROM (&quot; +
+&nbsp;                            &quot;        SELECT user_id, jt.`value` &quot; +
+&nbsp;                            &quot;        FROM teacher &quot; +
+&nbsp;                            &quot;        CROSS JOIN JSON_TABLE( &quot; +
+&nbsp;                            &quot;            vector, &quot; +
+&nbsp;                            &quot;            &#39;$[*]&#39; COLUMNS ( &quot; +
+&nbsp;                            &quot;                `value` DECIMAL(10,2) PATH &#39;$&#39; &quot; +
+&nbsp;                            &quot;            ) &quot; +
+&nbsp;                            &quot;        ) AS jt &quot; +
+&nbsp;                            &quot;    ) AS sub &quot; +
+&nbsp;                            &quot;) tvt ON t.user_id = tvt.user_id &quot; +
+&nbsp;                            &quot;JOIN (&quot; +
+&nbsp;                            &quot;    SELECT &quot; +
+&nbsp;                            &quot;        `value` AS svt_value, &quot; +
+&nbsp;                            &quot;        ROW_NUMBER() OVER () AS pos &quot; +
+&nbsp;                            &quot;    FROM JSON_TABLE( &quot; +
+&nbsp;                            &quot;        :studentVector, &quot; +
+&nbsp;                            &quot;        &#39;$[*]&#39; COLUMNS ( &quot; +
+&nbsp;                            &quot;            `value` DECIMAL(10,2) PATH &#39;$&#39; &quot; +
+&nbsp;                            &quot;        ) &quot; +
+&nbsp;                            &quot;    ) AS jt &quot; +
+&nbsp;                            &quot;) svt ON tvt.pos = svt.pos &quot; +
+&nbsp;                            &quot;GROUP BY t.user_id &quot; +
+&nbsp;                            &quot;ORDER BY similarity DESC&quot;,
+&nbsp;            countQuery =
+&nbsp;                    &quot;SELECT COUNT(*) FROM teacher t &quot; +
+&nbsp;                            &quot;WHERE 1=1 &quot; +
+&nbsp;                            &quot;AND (:subject IS NULL OR t.subject = :subject) &quot; +
+&nbsp;                            &quot;AND (:teachGrade IS NULL OR t.teach_grade = :teachGrade)&quot;,
+&nbsp;            nativeQuery = true
+&nbsp;    )*/
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;//    Page&lt;Teacher&gt; findAndSortByVector(
+&nbsp;//            @Param(&quot;studentVector&quot;) String studentVector, // 直接传递 List&lt;Double&gt;
+&nbsp;//            @Param(&quot;subject&quot;) String subject,
+&nbsp;//            @Param(&quot;teachGrade&quot;) String teachGrade,
+&nbsp;//            Pageable pageable
+&nbsp;//    );
+&nbsp;
+&nbsp;}
+&nbsp;
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-07-04 18:00</div>
+</div>
+</body>
+</html>

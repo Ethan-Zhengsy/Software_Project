@@ -1,0 +1,212 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AuthServiceImp</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.tutorial.tutorial_platform.service.Impl</a>
+</div>
+
+<h1>Coverage Summary for Class: AuthServiceImp (org.tutorial.tutorial_platform.service.Impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AuthServiceImp</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (4/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.3%
+  </span>
+  <span class="absValue">
+    (21/23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.tutorial.tutorial_platform.service.Impl;
+&nbsp;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.security.crypto.password.PasswordEncoder;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.tutorial.tutorial_platform.dto.LoginDTO;
+&nbsp;import org.tutorial.tutorial_platform.dto.RegisterDTO;
+&nbsp;import org.tutorial.tutorial_platform.pojo.User;
+&nbsp;import org.tutorial.tutorial_platform.pojo.UserTotalUnread;
+&nbsp;import org.tutorial.tutorial_platform.repository.UserRepository;
+&nbsp;import org.tutorial.tutorial_platform.repository.UserTotalUnreadRepository;
+&nbsp;import org.tutorial.tutorial_platform.service.AuthService;
+&nbsp;import org.tutorial.tutorial_platform.util.JwtUtil;
+&nbsp;import org.tutorial.tutorial_platform.vo.AuthResponseVO;
+&nbsp;
+&nbsp;/**
+&nbsp; * AuthServiceImp - 认证服务实现类
+&nbsp; *
+&nbsp; * 实现 AuthService 接口定义的核心认证逻辑，包括：
+&nbsp; * - 用户注册：处理新用户注册流程
+&nbsp; * - 用户登录：验证用户凭证有效性
+&nbsp; *
+&nbsp; * 依赖组件：
+&nbsp; * - UserRepository 用户数据访问接口
+&nbsp; * - PasswordEncoder 密码编码器
+&nbsp; * - JwtUtil JWT工具类
+&nbsp; *
+&nbsp; * 元信息：
+&nbsp; * @author zxf
+&nbsp; */
+&nbsp;@Service
+<b class="fc">&nbsp;public class AuthServiceImp implements AuthService {</b>
+&nbsp;    @Autowired
+&nbsp;    private UserRepository userRepository;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private PasswordEncoder passwordEncoder;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private JwtUtil jwtUtil;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private UserTotalUnreadRepository userTotalUnreadRepository;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public AuthResponseVO register(RegisterDTO registerDTO) {
+&nbsp;        // 1. 唯一性校验
+<b class="pc">&nbsp;        if (userRepository.existsByUsername(registerDTO.getUsername())) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;用户名已存在&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (userRepository.existsByEmail(registerDTO.getEmail())) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;邮箱已存在&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // 2. 实体构建
+<b class="fc">&nbsp;        User user = new User();</b>
+<b class="fc">&nbsp;        user.setUsername(registerDTO.getUsername());</b>
+<b class="fc">&nbsp;        user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));</b>
+<b class="fc">&nbsp;        user.setEmail(registerDTO.getEmail());</b>
+<b class="fc">&nbsp;        user.setUserType(registerDTO.getUserType());</b>
+&nbsp;
+&nbsp;        // 3. 持久化操作
+<b class="fc">&nbsp;        User savedUser = userRepository.save(user);</b>
+&nbsp;
+&nbsp;        // 4. 生成token
+<b class="fc">&nbsp;        String token = jwtUtil.generateToken(savedUser);</b>
+&nbsp;
+&nbsp;        // 5. 在UserUnreadSum表中注册用户
+<b class="fc">&nbsp;        UserTotalUnread userTotalUnread = new UserTotalUnread();</b>
+<b class="fc">&nbsp;        userTotalUnread.setUserId(savedUser.getUserId());</b>
+<b class="fc">&nbsp;        userTotalUnread.setTotalUnread(0);</b>
+<b class="fc">&nbsp;        userTotalUnreadRepository.save(userTotalUnread);</b>
+&nbsp;
+&nbsp;        // 6. 返回认证响应
+<b class="fc">&nbsp;        return new AuthResponseVO(savedUser, token);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public AuthResponseVO login(LoginDTO loginDTO) {
+&nbsp;        // 1. 用户查询
+<b class="fc">&nbsp;        User user = userRepository.findByUsername(loginDTO.getUsername())</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new RuntimeException(&quot;用户名错误&quot;));</b>
+&nbsp;
+&nbsp;        // 2. 密码验证
+<b class="fc">&nbsp;        if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {</b>
+<b class="fc">&nbsp;            throw new RuntimeException(&quot;密码错误&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // 3. 生成token,在客户端中如果先注册后登录，新token会覆盖旧token
+<b class="fc">&nbsp;        String token = jwtUtil.generateToken(user);</b>
+&nbsp;
+&nbsp;        // 4. 返回认证响应
+<b class="fc">&nbsp;        return new AuthResponseVO(user, token);</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-07-04 18:00</div>
+</div>
+</body>
+</html>

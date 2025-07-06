@@ -1,0 +1,360 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UserInfoServiceImp</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.tutorial.tutorial_platform.service.Impl</a>
+</div>
+
+<h1>Coverage Summary for Class: UserInfoServiceImp (org.tutorial.tutorial_platform.service.Impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserInfoServiceImp</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62.5%
+  </span>
+  <span class="absValue">
+    (5/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.1%
+  </span>
+  <span class="absValue">
+    (61/70)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.tutorial.tutorial_platform.service.Impl;
+&nbsp;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.beans.factory.annotation.Value;
+&nbsp;import org.springframework.security.crypto.password.PasswordEncoder;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.web.multipart.MultipartFile;
+&nbsp;import org.tutorial.tutorial_platform.dto.StudentInfoUpdateDTO;
+&nbsp;import org.tutorial.tutorial_platform.dto.TeacherInfoUpdateDTO;
+&nbsp;import org.tutorial.tutorial_platform.dto.UserInfoUpdateDTO;
+&nbsp;import org.tutorial.tutorial_platform.pojo.Student;
+&nbsp;import org.tutorial.tutorial_platform.pojo.Teacher;
+&nbsp;import org.tutorial.tutorial_platform.pojo.User;
+&nbsp;import org.tutorial.tutorial_platform.pojo.UserType;
+&nbsp;import org.tutorial.tutorial_platform.repository.StudentRepository;
+&nbsp;import org.tutorial.tutorial_platform.repository.TeacherRepository;
+&nbsp;import org.tutorial.tutorial_platform.repository.UserRepository;
+&nbsp;import org.tutorial.tutorial_platform.service.UserInfoService;
+&nbsp;import org.tutorial.tutorial_platform.vo.StudentInfoVO;
+&nbsp;import org.tutorial.tutorial_platform.vo.TeacherInfoVO;
+&nbsp;import org.tutorial.tutorial_platform.vo.UserInfoVO;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.math.BigDecimal;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;/**
+&nbsp; * UserInfoServiceImp - 用户信息服务实现类
+&nbsp; * 
+&nbsp; * 实现用户信息相关的核心业务逻辑，包括：
+&nbsp; * - 查询用户信息：根据用户ID获取用户详细信息
+&nbsp; * - 更新用户信息：修改用户的基本信息
+&nbsp; * - 头像管理：处理用户头像的上传和存储
+&nbsp; * 
+&nbsp; * 核心功能：
+&nbsp; * - 用户信息查询：支持通过ID查询用户详细信息
+&nbsp; * - 信息更新：支持修改用户名、邮箱等基本信息
+&nbsp; * - 安全验证：更新信息时进行密码验证
+&nbsp; * - 唯一性检查：确保用户名和邮箱的唯一性
+&nbsp; * - 文件处理：支持头像文件的上传和存储
+&nbsp; * 
+&nbsp; * 元信息：
+&nbsp; * @author 周宏杰
+&nbsp; * @version 1.0
+&nbsp; * @since 2025-05-13
+&nbsp; */
+&nbsp;@Service
+<b class="fc">&nbsp;public class UserInfoServiceImp implements UserInfoService {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private UserRepository userRepository;
+&nbsp;    @Autowired
+&nbsp;    
+&nbsp;    private TeacherRepository teacherRepository;
+&nbsp;    @Autowired
+&nbsp;    private StudentRepository studentRepository;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private PasswordEncoder passwordEncoder;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 获取用户详细信息
+&nbsp;     * @param userId 用户ID
+&nbsp;     * @return 用户信息视图对象
+&nbsp;     * @throws RuntimeException 当用户不存在时抛出
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public UserInfoVO getUserInfo(Long userId) {
+&nbsp;        // 1. 查询用户实体
+<b class="fc">&nbsp;        User user = userRepository.findById(userId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new RuntimeException(&quot;用户不存在&quot;));</b>
+&nbsp;
+&nbsp;        // 2. 构建并返回视图对象
+<b class="fc">&nbsp;        return new UserInfoVO(user);</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * 获取学生详细信息
+&nbsp;     * @param userId 用户ID
+&nbsp;     * @return 学生信息视图对象
+&nbsp;     * @throws RuntimeException 当学生不存在时抛出
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public StudentInfoVO getStudentInfo(Long userId) {
+&nbsp;        // 1. 查询用户实体
+<b class="fc">&nbsp;        User user = userRepository.findById(userId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new RuntimeException(&quot;用户不存在&quot;));</b>
+&nbsp;
+&nbsp;        // 2. 验证用户是否为学生
+<b class="pc">&nbsp;        if (user.getUserType() != UserType.STUDENT) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;该用户不是学生&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // 3. 查询学生实体
+<b class="fc">&nbsp;        Student student = studentRepository.findByUserUserId(userId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new RuntimeException(&quot;学生信息不存在&quot;));</b>
+&nbsp;
+&nbsp;        // 4. 构建并返回视图对象
+<b class="fc">&nbsp;        return new StudentInfoVO(student);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 获取教师详细信息
+&nbsp;     * @param userId 用户ID
+&nbsp;     * @return 教师信息视图对象
+&nbsp;     * @throws RuntimeException 当教师不存在时抛出
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public TeacherInfoVO getTeacherInfo(Long userId) {
+&nbsp;        // 1. 查询用户实体
+<b class="fc">&nbsp;        User user = userRepository.findById(userId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new RuntimeException(&quot;用户不存在&quot;));</b>
+&nbsp;
+&nbsp;        // 2. 验证用户是否为教师
+<b class="pc">&nbsp;        if (user.getUserType() != UserType.TEACHER) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;该用户不是教师&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // 3. 查询教师实体
+<b class="fc">&nbsp;        Teacher teacher = teacherRepository.findByUserUserId(userId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new RuntimeException(&quot;教师信息不存在&quot;));</b>
+&nbsp;
+&nbsp;        // 4. 构建并返回视图对象
+<b class="fc">&nbsp;        return new TeacherInfoVO(teacher);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 更新用户信息
+&nbsp;     * @param userInfoUpdateDTO 用户信息更新对象
+&nbsp;     * @return 更新后的用户信息视图对象
+&nbsp;     * @throws RuntimeException 当以下情况发生时抛出：
+&nbsp;     *                         - 用户不存在
+&nbsp;     *                         - 密码验证失败
+&nbsp;     *                         - 用户名/邮箱已被使用
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public UserInfoVO updateUserInfo(UserInfoUpdateDTO userInfoUpdateDTO) {
+&nbsp;        // 1. 查询用户实体
+<b class="fc">&nbsp;        User user = userRepository.findById(userInfoUpdateDTO.getUserId())</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new RuntimeException(&quot;用户不存在&quot;));</b>
+&nbsp;
+&nbsp;        // 2. 更新用户信息
+<b class="fc">&nbsp;        user.setUsername(userInfoUpdateDTO.getUsername());</b>
+<b class="fc">&nbsp;        user.setEmail(userInfoUpdateDTO.getEmail());</b>
+<b class="fc">&nbsp;        user.setUserType(userInfoUpdateDTO.getUserType());</b>
+<b class="fc">&nbsp;        user.setPassword(passwordEncoder.encode(userInfoUpdateDTO.getPassword()));</b>
+&nbsp;
+&nbsp;        // 3. 保存更新
+<b class="fc">&nbsp;        User updatedUser = userRepository.save(user);</b>
+<b class="fc">&nbsp;        return new UserInfoVO(updatedUser);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * 更新教师信息
+&nbsp;     * @param teacherInfoUpdateDTO 教师信息更新对象
+&nbsp;     * @return 更新后的教师信息视图对象
+&nbsp;     * @throws RuntimeException 当以下情况发生时抛出：
+&nbsp;     *                         - 教师不存在
+&nbsp;     *                         - 密码验证失败
+&nbsp;     *                         - 教师信息更新失败
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public TeacherInfoVO updateTeacherInfo(TeacherInfoUpdateDTO teacherInfoUpdateDTO) {
+<b class="fc">&nbsp;        User user = userRepository.findById(teacherInfoUpdateDTO.getUserId())</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new RuntimeException(&quot;用户不存在&quot;));</b>
+&nbsp;
+<b class="pc">&nbsp;        if (user.getUserType() != UserType.TEACHER) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;该用户不是教师&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Teacher teacher = teacherRepository.findByUserUserId(user.getUserId())</b>
+<b class="fc">&nbsp;                .orElseGet(() -&gt; {</b>
+<b class="nc">&nbsp;                    Teacher newTeacher = new Teacher();</b>
+<b class="nc">&nbsp;                    newTeacher.setUser(user);</b>
+<b class="nc">&nbsp;                    return newTeacher;</b>
+&nbsp;                });
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        teacher.setName(teacherInfoUpdateDTO.getName());</b>
+<b class="fc">&nbsp;        teacher.setGender(teacherInfoUpdateDTO.getGender());</b>
+<b class="fc">&nbsp;        teacher.setEducation(teacherInfoUpdateDTO.getEducation());</b>
+<b class="fc">&nbsp;        teacher.setTeachGrade(teacherInfoUpdateDTO.getTeachGrade());</b>
+<b class="fc">&nbsp;        teacher.setSubject(teacherInfoUpdateDTO.getSubject());</b>
+<b class="fc">&nbsp;        teacher.setAddress(teacherInfoUpdateDTO.getAddress());</b>
+<b class="fc">&nbsp;        teacher.setPhone(teacherInfoUpdateDTO.getPhone());</b>
+<b class="fc">&nbsp;        teacher.setExperience(teacherInfoUpdateDTO.getExperience());</b>
+<b class="fc">&nbsp;        teacher.setScore(BigDecimal.valueOf(teacherInfoUpdateDTO.getScore()));</b>
+<b class="fc">&nbsp;        teacher.setHobby(teacherInfoUpdateDTO.getHobby());</b>
+<b class="fc">&nbsp;        teacher.setSchool(teacherInfoUpdateDTO.getSchool());</b>
+<b class="fc">&nbsp;        teacher.setAddition(teacherInfoUpdateDTO.getAddition());</b>
+&nbsp;
+<b class="fc">&nbsp;        teacherRepository.save(teacher);</b>
+&nbsp;
+<b class="fc">&nbsp;        return new TeacherInfoVO(teacher);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 更新学生信息
+&nbsp;     * @param studentInfoUpdateDTO 包含学生信息更新的数据传输对象
+&nbsp;     *                            - 性别
+&nbsp;     *                            - 年级
+&nbsp;     *                            - 科目
+&nbsp;     *                            - 地址
+&nbsp;     * @return
+&nbsp;     * @throws RuntimeException 如果更新失败，则抛出运行时异常
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public StudentInfoVO updateStudentInfo(StudentInfoUpdateDTO studentInfoUpdateDTO) {
+<b class="fc">&nbsp;        User user = userRepository.findById(studentInfoUpdateDTO.getUserId())</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new RuntimeException(&quot;用户不存在&quot;));</b>
+&nbsp;
+<b class="fc">&nbsp;        if (user.getUserType() != UserType.STUDENT) {</b>
+<b class="fc">&nbsp;            throw new RuntimeException(&quot;该用户不是学生&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Student student = studentRepository.findByUserUserId(user.getUserId())</b>
+<b class="fc">&nbsp;                .orElseGet(() -&gt; {</b>
+<b class="nc">&nbsp;                    Student newStudent = new Student();</b>
+<b class="nc">&nbsp;                    newStudent.setUser(user);</b>
+<b class="nc">&nbsp;                    return newStudent;</b>
+&nbsp;                });
+&nbsp;
+<b class="fc">&nbsp;        student.setName(studentInfoUpdateDTO.getName());</b>
+<b class="fc">&nbsp;        student.setGender(studentInfoUpdateDTO.getGender());</b>
+<b class="fc">&nbsp;        student.setGrade(studentInfoUpdateDTO.getGrade());</b>
+<b class="fc">&nbsp;        student.setSubject(studentInfoUpdateDTO.getSubject());</b>
+<b class="fc">&nbsp;        student.setAddress(studentInfoUpdateDTO.getAddress());</b>
+<b class="fc">&nbsp;        student.setPhone(studentInfoUpdateDTO.getPhone());</b>
+<b class="fc">&nbsp;        student.setScore(BigDecimal.valueOf(studentInfoUpdateDTO.getScore()));</b>
+<b class="fc">&nbsp;        student.setHobby(studentInfoUpdateDTO.getHobby());</b>
+<b class="fc">&nbsp;        student.setGoal(studentInfoUpdateDTO.getGoal());</b>
+<b class="fc">&nbsp;        student.setAddition(studentInfoUpdateDTO.getAddition());</b>
+&nbsp;
+<b class="fc">&nbsp;        studentRepository.save(student);</b>
+&nbsp;
+<b class="fc">&nbsp;        return new StudentInfoVO(student);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-07-04 18:00</div>
+</div>
+</body>
+</html>

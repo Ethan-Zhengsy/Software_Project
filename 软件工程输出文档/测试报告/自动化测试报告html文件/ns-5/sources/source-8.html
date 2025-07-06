@@ -1,0 +1,138 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Student</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.tutorial.tutorial_platform.pojo</a>
+</div>
+
+<h1>Coverage Summary for Class: Student (org.tutorial.tutorial_platform.pojo)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">Student$HibernateInstantiator</td>
+  </tr>
+  <tr>
+    <td class="name">Student$HibernateProxy</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.tutorial.tutorial_platform.pojo;
+&nbsp;
+&nbsp;import jakarta.persistence.*;
+&nbsp;import lombok.Data;
+&nbsp;import java.math.BigDecimal;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * 学生实体类
+&nbsp; * 和数据库对应
+&nbsp; * 元信息：
+&nbsp; * @author zhj
+&nbsp; * @version 1.0
+&nbsp; * @since 2025-05-17
+&nbsp; */
+&nbsp;@Entity
+&nbsp;@Table(name = &quot;student&quot;)
+&nbsp;@Data
+&nbsp;public class Student {
+&nbsp;
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+&nbsp;    @Column(name = &quot;student_id&quot;)
+&nbsp;    private Long studentId;
+&nbsp;
+&nbsp;    @OneToOne
+&nbsp;    @JoinColumn(name = &quot;user_id&quot;, referencedColumnName = &quot;user_id&quot;, nullable = false, unique = true)
+&nbsp;    private User user;
+&nbsp;
+&nbsp;    @Column(name = &quot;name&quot;, nullable = false, length = 20)
+&nbsp;    private String name;
+&nbsp;
+&nbsp;    @Enumerated(EnumType.STRING)
+&nbsp;    @Column(name = &quot;gender&quot;, nullable = false)
+&nbsp;    private Gender gender;
+&nbsp;
+&nbsp;    @Column(name = &quot;grade&quot;, nullable = false, length = 20)
+&nbsp;    private String grade;
+&nbsp;
+&nbsp;    @Column(name = &quot;subject&quot;, nullable = false, length = 30)
+&nbsp;    private String subject;
+&nbsp;
+&nbsp;    @Column(name = &quot;address&quot;, nullable = false, length = 100)
+&nbsp;    private String address;
+&nbsp;
+&nbsp;    @Column(name = &quot;phone&quot;, nullable = false, length = 11)
+&nbsp;    private String phone;
+&nbsp;
+&nbsp;    @Column(name = &quot;score&quot;, precision = 5, scale = 2)
+&nbsp;    private BigDecimal score;
+&nbsp;
+&nbsp;    @Column(name = &quot;hobby&quot;, nullable = false, length = 255)
+&nbsp;    private String hobby;
+&nbsp;
+&nbsp;    @Column(name = &quot;goal&quot;, nullable = false, length = 255)
+&nbsp;    private String goal;
+&nbsp;
+&nbsp;    @Column(name = &quot;addition&quot;, columnDefinition = &quot;TEXT NOT NULL&quot;)
+&nbsp;    private String addition;
+&nbsp;
+&nbsp;    @Column(name = &quot;vector&quot;, columnDefinition = &quot;JSON&quot;)
+&nbsp;    private List&lt;Double&gt; vector; // 直接存储为 JSON 数组
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-07-04 18:00</div>
+</div>
+</body>
+</html>
