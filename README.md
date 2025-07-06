@@ -33,3 +33,8 @@
 2. **前端项目**文件夹下存放前端项目**teach_vue**，该项目存放**README**指引以及**/src**目录下的源码
 3. **后端项目**文件夹下存放后端项目**teach_springboot**，该项目存放**README**指引以及**/tutorial_platform/src**目录下的源码
 
+
+
+## GitHub仓库
+
+https://github.com/Ethan-Zhengsy/Software_Project.git
